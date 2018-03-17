@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +8,11 @@ import { AppModuleShared } from './app.module';
 import { AppComponent } from './app.component';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { BrowserPrebootModule } from 'preboot/browser';
+
+import { Card } from 'card/dist/card.js';
+if (Card) {
+  window['Card'] = Card;
+}
 
 export function getOriginUrl() {
   return window.location.origin;

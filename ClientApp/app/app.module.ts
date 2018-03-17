@@ -3,7 +3,7 @@ import { RouterModule, PreloadAllModules } from '@angular/router';
 import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 
@@ -25,6 +25,9 @@ import { NgxBootstrapComponent } from './containers/ngx-bootstrap-demo/ngx-boots
 import { LinkService } from './shared/link.service';
 import { UserService } from './shared/user.service';
 import { ORIGIN_URL } from '@nguniversal/aspnetcore-engine';
+import { TestComponentComponent } from './components/test-component/test-component.component';
+import { CardModule } from 'ngx-card/ngx-card';
+import { PaymentComponent } from './components/payment/payment.component';
 
 export function createTranslateLoader(http: HttpClient, baseHref) {
     // Temporary Azure hack
@@ -43,8 +46,10 @@ export function createTranslateLoader(http: HttpClient, baseHref) {
         UsersComponent,
         UserDetailComponent,
         HomeComponent,
-        NotFoundComponent,
-        NgxBootstrapComponent
+      NotFoundComponent,
+      PaymentComponent,
+      NgxBootstrapComponent,
+      TestComponentComponent
     ],
     imports: [
         CommonModule,
@@ -54,9 +59,10 @@ export function createTranslateLoader(http: HttpClient, baseHref) {
         HttpClientModule,
         TransferHttpCacheModule,
         BrowserTransferStateModule,
+      CardModule,
 
-
-        FormsModule,
+      FormsModule,
+      ReactiveFormsModule,
         Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
 
         // i18n support
@@ -74,7 +80,24 @@ export function createTranslateLoader(http: HttpClient, baseHref) {
                 path: '',
                 redirectTo: 'home',
                 pathMatch: 'full'
-            },
+          },
+          {
+            path: 'test', component: TestComponentComponent,
+            data: {
+              title: 'Test',
+              meta: [
+                { name: 'description', content: 'Test' },
+                { name: 'title', content: 'Test' },
+                { name: 'keywords', content: '' }
+              ],
+              links: [
+                { rel: 'canonical', href: 'http://blogs.example.com/blah/nice' },
+                { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/' },
+                { rel: 'alternate', hreflang: 'es', href: 'http://es2.example.com/' }//,
+                //{ rel: 'icon', type: 'image/png', href: './css/images/logo-icon.png' }
+              ]
+            }
+          },
             {
                 path: 'home', component: HomeComponent,
 

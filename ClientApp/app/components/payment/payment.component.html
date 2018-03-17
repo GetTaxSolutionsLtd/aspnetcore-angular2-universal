@@ -1,0 +1,193 @@
+<div class="payment-container col-xs-12 col-sm-12 col-md-6 col-lg-6 ml-auto mr-auto" [formGroup]="card">
+  <div class="card card-primary"><strong>Pay our processing fee of {{paymentDetails?.total?.amount?.value}} {{paymentDetails?.total?.amount?.currency}}</strong></div>
+  <div class="card card-primary">
+    <div class="row">
+      <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12  ml-auto mr-auto">
+        <!--<formly-form [form]="forms.get('payment')" [fields]="fields.payment" [model]="models.service">
+
+  </formly-form>-->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="agreeTc" formControlName="agreeTc">
+          <label class="form-check-label" for="agreeTc">
+            <span>
+              I have read and agree with the
+              <a (click)="showTcAgreement(tAndCContent)" href="javascript:void(0);">Terms and Conditions</a>
+              of GetTaxsolutions!
+              <span *ngIf="card.controls.agreeTc">*</span>
+            </span>
+          </label>
+        </div>
+        <!--<div class="checkbox">
+          <label class="custom-control custom-checkbox">
+            <input type="checkbox"
+                   formControlName="agreeTc"
+                   [attr.invalid]="showError"
+                   class="custom-control-input"
+                   #ccNumber>
+            <span class="custom-control-label">
+              I have read and agree with the
+              <a (click)="showTcAgreement()">Terms and Conditions</a>
+              of GetTaxsolutions!
+              <span *ngIf="card.controls.agreeTc">*</span>
+            </span>
+            <span class="custom-control-indicator"></span>
+          </label>
+        </div>-->
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div id="card-container"></div>
+        <div card
+             container="#card-container"
+             card-width="500"
+             [messages]="cardMessages"
+             [placeholders]="cardPlaceholders"
+             formatting="true"
+             debug="true"
+             class="panel panel-default credit-card-box"
+             name="cardForm">
+          <div class="card-header panel-heading display-table">
+            <div class="row display-tr">
+              <h3 class="card-title panel-title display-td">Payment using your card</h3>
+              <div class="display-td">
+                <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="payment-form">
+              <div class="row">
+                <div class="col-12">
+                  <!--{{(card.get('number').dirty)}}
+                  {{(card.get('number').invalid)}}-->
+                  <div class="form-group" [ngClass]="{ 'has-error': (card.get('number').dirty && card.get('number').invalid), 'has-success': (card.get('number').dirty && card.get('number').valid)  }">
+                    <!--<button (click)="clickBtn(formModel.form.controls)">Click me</button>-->
+                    <!--ng-class="forms.CardNumber.$dirty ? (forms.CardNumber.$invalid ? 'has-error' : 'has-success') : ''"-->
+                    <label for="cardNumber">CARD NUMBER</label> <!--<label>{{card.value | json}}</label> <label>{{card.valid | json}}</label>-->
+                    <div class="input-group">
+                      <input id="cc-number"
+                             type="text"
+                             class="form-control"
+                             name="CardNumber"
+                             cc-format
+                             cc-number
+                             card-number
+                             cc-eager-type
+                             formControlName="number"
+                             placeholder="Valid Card Number"
+                             autocomplete="cc-number"
+                             required autofocus
+                             #ccNumber />
+                      <!--(click)="cc(card, ccNumber)"-->
+                      <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                    </div>
+                    <p *ngIf="ccNumber.classList.contains('jp-card-invalid')" style="color:#a94442;">That's not a valid {{getCardType() | uppercase}}</p>
+                    <!--{{forms.CardNumber.$ccEagerType}}-->
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-xs-7 col-md-7">
+                  <div class="form-group" [ngClass]="{ 'has-error': (card.get('expiry').dirty && card.get('expiry').invalid), 'has-success': (card.get('expiry').dirty && card.get('expiry').valid)  }">
+                    <!--ng-class="forms.CardExpiry.$dirty ? (forms.CardExpiry.$invalid ? 'has-error' : 'has-success') : ''"-->
+                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                    <input type="text"
+                           class="form-control"
+                           name="CardExpiry"
+                           placeholder="MM / YYYY"
+                           autocomplete="cc-exp"
+                           required
+                           card-expiry
+                           ng-pattern="/\d{2}\s*\/\s*\d{4}/g"
+                           formControlName="expiry" />
+                  </div>
+                </div>
+                <div class="col-xs-5 col-md-5 pull-right">
+                  <div class="form-group" [ngClass]="{ 'has-error': (card.get('cvc').dirty && card.get('cvc').invalid), 'has-success': (card.get('cvc').dirty && card.get('cvc').valid)  }">
+                    <!--ng-class="forms.CardCvc.$dirty ? (forms.CardCvc.$invalid ? 'has-error' : 'has-success') : ''"-->
+                    <label for="cardCVC">CV CODE</label>
+                    <input type="tel"
+                           class="form-control"
+                           name="CardCvc"
+                           placeholder="CVC"
+                           autocomplete="cc-csc"
+                           required
+                           card-cvc
+                           cc-cvc
+                           cc-type="forms.CardNumber.$ccType"
+                           ng-required="true"
+                           formControlName="cvc" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group" [ngClass]="{ 'has-error': (card.get('name').dirty && card.get('name').invalid), 'has-success': (card.get('name').dirty && card.get('name').valid)  }">
+                    <!--ng-class="forms.CardName.$dirty ? (forms.CardName.$invalid ? 'has-error' : 'has-success') : ''"-->
+                    <label for="couponCode">CARD HOLDER</label>
+                    <input class="form-control"
+                           placeholder="Full name"
+                           type="text"
+                           name="CardName"
+                           card-name
+                           formControlName="name"
+                           required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <!--{{(!models.service.AgreeTc || card.invalid)}}-->
+                  <!--{{(card.controls.agreeTc.value)}}-->
+                  <button class="subscribe btn btn-success btn-lg btn-block" type="button" (click)="payWithCard()" [disabled]="!card.controls.agreeTc.value || card.invalid">
+                    <!---->
+                    Pay with card
+                  </button>
+                </div>
+              </div>
+              <div class="row" style="display:none;">
+                <div class="col-xs-12">
+                  <p class="payment-errors"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--End form-->
+
+    <div class="row">
+      <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <span style="font-size: 18px">--------------------- OR --------------------</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <!--{{!card.controls.agreeTc.value }}-->
+        <div #ppButton id="paypal-button-container" [attr.disabled]="(!card.controls.agreeTc.value) ? true : null"></div>
+      </div>
+    </div>
+  </div>
+
+<ng-template #tAndCContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">GetTaxSolutions Terms and Conditions</h4>
+    <!--<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>-->
+  </div>
+  <div class="modal-body" style="padding: 0 15px;">
+    TC
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-outline-dark" (click)="c('Close click')">OK</button>
+  </div>
+</ng-template>
+
+
+</div>

@@ -13,7 +13,8 @@ const treeShakableModules = [
     '@angular/platform-browser-dynamic',
     '@angular/router',
     'ngx-bootstrap',
-    'zone.js',
+  'zone.js',
+  'paypal-checkout/dist/checkout.lib.js'
 ];
 const nonTreeShakableModules = [
     // 'bootstrap',
