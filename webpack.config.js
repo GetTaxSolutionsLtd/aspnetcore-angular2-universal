@@ -55,14 +55,6 @@ module.exports = (env) => {
             new webpack.SourceMapDevToolPlugin({
                 filename: '[file].map', // Remove this line if you prefer inline source maps
                 moduleFilenameTemplate: path.relative(clientBundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
-          }),
-          new webpack.ProvidePlugin({
-            //'$': 'jquery',
-            //'jQuery': 'jquery',
-            //'window.jQuery': 'jquery',
-            //'Isotope': 'isotope-layout/dist/isotope.pkgd.min.js',
-            //'imagesLoaded': 'imagesloaded/imagesloaded.pkgd.js',
-            'paypal': 'paypal-checkout/dist/checkout.lib.js'
           })
         ] : [
             // new BundleAnalyzerPlugin(),

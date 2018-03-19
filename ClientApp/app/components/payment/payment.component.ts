@@ -1,14 +1,17 @@
-import { Component, OnInit, AfterContentInit, Input, Output, EventEmitter, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, Input, Output, EventEmitter, AfterViewChecked, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CreditCardValidator } from '../../directives/credit-card-validation.directive';
+import * as paypal from 'paypal-checkout/dist/checkout.lib.js';
+
 import * as Payment from 'payment';
+import { isPlatformBrowser } from '@angular/common';
 
 // Set up a url on your server to create the payment
 var CREATE_URL = 'api/payment-id';
 
 // Set up a url on your server to execute the payment
 const EXECUTE_URL = 'api/execute-payment';
-declare let paypal: any;
+//declare let paypal: any;
 //declare let $: any;
 
 export class CompletePaymentResult {
@@ -100,7 +103,8 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
   });
 
   constructor(
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    @Inject(PLATFORM_ID) private platformId: Object) { }
 
   getCardType() {
     var cardType = Payment.fns.cardType(this.card.controls.number.value);
@@ -242,7 +246,7 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
     //if (!$('#paypal-button-container').html()) {
     //  paypal.Button.render(paypalBtn, '#paypal-button-container');
     //}
-    if (!this.isPrivateButtonRendered) {
+    if (!this.isPrivateButtonRendered && isPlatformBrowser(this.platformId)) {
       if (!self.ppButton.nativeElement) console.log('self.ppButton.nativeElement is null');
       if (!paypal || !paypal.Button) console.log('!paypal || !paypal.Button is null');
       paypal.Button.render(paypalBtn, self.ppButton.nativeElement); //this.ppButton.nativeElement;

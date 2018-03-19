@@ -13,8 +13,7 @@ const treeShakableModules = [
     '@angular/platform-browser-dynamic',
     '@angular/router',
     'ngx-bootstrap',
-  'zone.js',
-  'paypal-checkout/dist/checkout.lib.js'
+  'zone.js'
 ];
 const nonTreeShakableModules = [
     // 'bootstrap',
@@ -22,7 +21,8 @@ const nonTreeShakableModules = [
     'core-js',
     // 'es6-promise',
     // 'es6-shim',
-    'event-source-polyfill',
+  'event-source-polyfill',
+  'paypal-checkout/dist/checkout.lib.js',
     // 'jquery',
 ];
 const allModules = treeShakableModules.concat(nonTreeShakableModules);
