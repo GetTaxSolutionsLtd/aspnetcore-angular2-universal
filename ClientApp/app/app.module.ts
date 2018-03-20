@@ -26,7 +26,7 @@ import { LinkService } from './shared/link.service';
 import { UserService } from './shared/user.service';
 import { ORIGIN_URL } from '@nguniversal/aspnetcore-engine';
 import { TestComponentComponent } from './components/test-component/test-component.component';
-import { CardModule } from 'ngx-card/ngx-card';
+//import { CardModule } from 'ngx-card/ngx-card';
 import { PaymentComponent } from './components/payment/payment.component';
 
 export function createTranslateLoader(http: HttpClient, baseHref) {
@@ -59,7 +59,7 @@ export function createTranslateLoader(http: HttpClient, baseHref) {
         HttpClientModule,
         TransferHttpCacheModule,
         BrowserTransferStateModule,
-      CardModule,
+      //CardModule,
 
       FormsModule,
       ReactiveFormsModule,
@@ -166,7 +166,7 @@ export function createTranslateLoader(http: HttpClient, baseHref) {
           // Router options
           useHash: false,
           preloadingStrategy: PreloadAllModules,
-          initialNavigation: 'enabled'
+          initialNavigation: 'enabled' 
         })
     ],
     providers: [

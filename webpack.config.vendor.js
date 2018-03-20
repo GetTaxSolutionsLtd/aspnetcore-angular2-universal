@@ -22,7 +22,7 @@ const nonTreeShakableModules = [
     // 'es6-promise',
     // 'es6-shim',
   'event-source-polyfill',
-  'paypal-checkout/dist/checkout.lib.js',
+  //'paypal-checkout/dist/checkout.lib.js',
     // 'jquery',
 ];
 const allModules = treeShakableModules.concat(nonTreeShakableModules);

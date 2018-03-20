@@ -14,6 +14,11 @@ if (Card) {
   window['Card'] = Card;
 }
 
+import * as paypal2 from 'paypal-checkout/dist/checkout.lib.js';
+//if (paypal) {
+  (window as any).paypal = paypal2;
+//}
+
 export function getOriginUrl() {
   return window.location.origin;
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit, AfterContentInit, Input, Output, EventEmitter, AfterViewChecked, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CreditCardValidator } from '../../directives/credit-card-validation.directive';
-import * as paypal from 'paypal-checkout/dist/checkout.lib.js';
+//import * as paypal from 'paypal-checkout/dist/checkout.lib.js';
 
-import * as Payment from 'payment';
+//import * as Payment from 'payment';
 import { isPlatformBrowser } from '@angular/common';
 
 // Set up a url on your server to create the payment
@@ -11,7 +11,7 @@ var CREATE_URL = 'api/payment-id';
 
 // Set up a url on your server to execute the payment
 const EXECUTE_URL = 'api/execute-payment';
-//declare let paypal: any;
+declare let paypal: any;
 //declare let $: any;
 
 export class CompletePaymentResult {
@@ -107,8 +107,8 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
     @Inject(PLATFORM_ID) private platformId: Object) { }
 
   getCardType() {
-    var cardType = Payment.fns.cardType(this.card.controls.number.value);
-    return cardType || 'card number';
+    //var cardType = Payment.fns.cardType(this.card.controls.number.value);
+    return 'card number';
   }
 
   showTcAgreement(tAndCContent) {
@@ -139,7 +139,7 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
     // Set up a url on your server to create the payment
 
     // Make a call to your server to set up the payment
-    return paypal.request.post(CREATE_URL, null, { method: 'POST', json: paymentModel, headers: { 'Content-Type': 'application/json' } })
+    return window['paypal'].request.post(CREATE_URL, null, { method: 'POST', json: paymentModel, headers: { 'Content-Type': 'application/json' } })
       .then(function (res) {
         //$loading.finish('loading');
         if (card) {
@@ -169,7 +169,7 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
     };
 
     // Make a call to your server to execute the payment
-    return paypal.request.post(EXECUTE_URL, null, { method: 'POST', json: payData, headers: { 'Content-Type': 'application/json' } })
+    return window['paypal'].request.post(EXECUTE_URL, null, { method: 'POST', json: payData, headers: { 'Content-Type': 'application/json' } })
       .then(function (res) {
         self.completePayment(res);
       }, function (err) {
@@ -211,22 +211,9 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
       //invoke payment/authorize server side
       // payment() is called when the button is clicked
       payment: function () {
-        //if (!val.AgreeTc) {
-        //  this.notificationService.error('You have to read and confirm our agreement.');
-        //  return false;
-        //}
-        //$loading.start('loading');
-
         // Make a call to your server to set up the payment
         return self.getPayment.call(self);
-        //{
-        //  Id: 'payment',
-        //  ServiceId: self.serviceDetails.ServiceId,
-        //  //Type: model.service.Type,
-        //  ServiceTypeId: self.serviceDetails.ServiceTypeId,
-        //  AgreeTc: self.card.controls.agreeTc.value,
-        //  UserId: self.serviceDetails.UserId
-        //});
+
       },
 
       // onAuthorize() is called when the buyer approves the payment
@@ -238,8 +225,6 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
     };
 
     //Server transfer have to be fixed in Angular 5!!! TODO
-    //paypalBtn['env'] = $('#env').val();
-    //paypalBtn.client[paypalBtn['env']] = $('#client_id').val();
     paypalBtn['env'] = 'sandbox';
     paypalBtn.client[paypalBtn['env']] = 'AYI8yMGue8-Q1kTG73MABbcLK6BX_nEAy2hltFIu1_Fcs9AmxbIB9_mCbrZfs0q0sUUI_3vyreeKOUPq';
 
@@ -248,8 +233,9 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
     //}
     if (!this.isPrivateButtonRendered && isPlatformBrowser(this.platformId)) {
       if (!self.ppButton.nativeElement) console.log('self.ppButton.nativeElement is null');
-      if (!paypal || !paypal.Button) console.log('!paypal || !paypal.Button is null');
-      paypal.Button.render(paypalBtn, self.ppButton.nativeElement); //this.ppButton.nativeElement;
+      if (!window['paypal'] || !window['paypal'].Button) console.log('!paypal || !paypal.Button is null');
+      console.log('Paypal execute button rendering');
+      window['paypal'].Button.render(paypalBtn, self.ppButton.nativeElement); //this.ppButton.nativeElement;
     }
     this.isPrivateButtonRendered  = true;
   }
@@ -265,7 +251,6 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
   }
 
   ngOnInit() {
-    this.initPaypalButton();
     //console.log("==========================");
     //console.log(this.paymentDetails);
     //console.log(this.paypalSettings);
@@ -274,6 +259,10 @@ export class PaymentComponent implements OnInit, AfterContentInit, AfterViewChec
 
   ngAfterContentInit() {
     //this.complete.emit({ Success: {a:10} });
+    let self = this;
+    if (window) {
+      self.initPaypalButton.call(self);
+    }
   }
 
   ngAfterViewChecked() {

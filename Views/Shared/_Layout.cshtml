@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <base href="@(Url.Content("~/"))" />
-    <title>@ViewData["Title"]</title>
+<head>
+  <base href="@(Url.Content("~/"))" />
+  <title>@ViewData["Title"]</title>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @Html.Raw(ViewData["Meta"])
-    @Html.Raw(ViewData["Links"])
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  @Html.Raw(ViewData["Meta"])
+  @Html.Raw(ViewData["Links"])
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
-    <!-- <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" /> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+  <!-- <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" /> -->
+  @*<script src="https://www.paypalobjects.com/api/checkout.js" data-version-4></script>*@
+  @Html.Raw(ViewData["Styles"])
 
-    @Html.Raw(ViewData["Styles"])
-
-  </head>
+</head>
   <body>
     @RenderBody()
 
